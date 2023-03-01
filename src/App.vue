@@ -5,7 +5,7 @@
 
   <button @click="startPomo">Start</button>
   <button @click="stopPomo">Stop</button>
-  <button @click="reset">Set Time</button>
+  <button @click="resetPomo">Set Time</button>
 
  </div>
  
@@ -38,8 +38,13 @@ export default {
     },
     stopPomo() {
       clearInterval(this.timer);
+      console.log('end of stopPomo: ' + this.timer);
     },
-    reset() {}
+    resetPomo() {
+      console.log('entering resetPomo method.');
+      this.pomoTime = 10000;
+      console.log('end of reset: ' + this.pomoTime);
+    }
   }
 }
 </script>
