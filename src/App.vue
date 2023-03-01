@@ -5,7 +5,9 @@
 
   <button @click="startPomo">Start</button>
   <button @click="stopPomo">Stop</button>
-  <button @click="resetPomo">Set Time</button>
+  <button @click="resetPomo">Reset Time</button>
+
+  <p>{{ pomoTime }}</p>
 
  </div>
  
@@ -31,7 +33,7 @@ export default {
         console.log('before the while');
         do {
           this.pomoTime -= 1000;
-        } while (this.pomoTime <= 0);
+        } while (this.pomoTime < 0);
         console.log('I am in the startPomo method: ' + this.pomoTime);
       }, 1000);
       console.log('I am at the end of the startPomo.')
