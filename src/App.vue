@@ -1,7 +1,7 @@
 <template>
  <div class="timer">
-  <div class="title">Pomodoro app</div>
-  <div v-if="showInput">
+  <div class="title">Pomodoro</div>
+  <div class="input" v-if="showInput">
     <form>
       <label>Work Time in ms </label>
       <input type="number" v-model="workTime"><br>
@@ -10,25 +10,28 @@
     </form>
   </div>
     <div v-if="showWork">
-      <button @click="startWork">Start Work</button>
-      <button @click="stopWork">Stop Work</button>
-      <button @click="resetWork">Reset Work to standard</button>
+      <div class="buttonContainer">
+        <button @click="startWork">Start Work</button>
+        <button @click="stopWork">Stop Work</button>
+        <button @click="resetWork">Reset Standard</button>
+      </div>
       <!--https://sabe.io/blog/javascript-convert-milliseconds-seconds-minutes-hours and stackoverflow for the zero before seconds-->
-      <p>{{ Math.floor((workTime / 1000 / 60) % 60) + (Math.floor((workTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((workTime / 1000) % 60))
+      <p class="clock">{{ Math.floor((workTime / 1000 / 60) % 60) + (Math.floor((workTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((workTime / 1000) % 60))
       : (" : " + Math.floor((workTime / 1000) % 60)))}}</p>
     </div>
     <div v-if="showChillOut">
-      <button @click="startChillOut">Start Chill Out</button>
-      <button @click="stopChillOut">Stop Chill Out</button>
-      <button @click="resetChillOut">Reset Chill Out to standard</button>
-      <p>{{ Math.floor((chillOutTime / 1000 / 60) % 60) + (Math.floor((chillOutTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((chillOutTime / 1000) % 60))
+      <div class="buttonContainer">
+        <button @click="startChillOut">Start Chill Out</button>
+        <button @click="stopChillOut">Stop Chill Out</button>
+        <button @click="resetChillOut">Reset Standard</button>
+      </div>
+      <p class="clock">{{ Math.floor((chillOutTime / 1000 / 60) % 60) + (Math.floor((chillOutTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((chillOutTime / 1000) % 60))
       : (" : " + Math.floor((chillOutTime / 1000) % 60)))}}</p>
     </div>
  </div> 
 </template>
 
 <script>
-import { tsImportEqualsDeclaration } from '@babel/types';
 
 export default {
   name: 'App',
@@ -110,16 +113,46 @@ export default {
 }
 
 .timer {
-  width: 400px;
+  width: 80vw;
   border-radius: 20px;
   background: #182bba;
   color: white;
   text-align: center;
-  padding: 100px 0;
-  margin: 40px auto;
+  padding: 10vw;
+  margin: 20vw auto;
+}
+.title {
+  font-size: large;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 2vh;
+  margin-bottom: 10vh;
+}
+.input {
+  font-style: italic;
+  font-weight: 200;
+  padding: 2vh;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+button {
+  background-color:#2c3e50;
+  color: white;
+  border: 0.3vh solid white;
+  border-radius: 0.3vh;
+  font-size: 3vh;
+  padding: 1.5vh;
+}
+.clock {
+  margin: 2vh;
+  border: 1vh solid white;
+  padding: 4vh;
+  font-size: 3vh;
 }
 
-.title {
-  vertical-align: top;
-}
 </style>
