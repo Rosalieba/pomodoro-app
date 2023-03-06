@@ -1,21 +1,16 @@
 <template>
  <div class="timer">
-
   <div class="title">Pomodoro app</div>
-
-  <button @click="startPomo">Start</button>
-  <button @click="stopPomo">Stop</button>
-  <button @click="resetPomo">Reset Time</button>
-
-  <p>{{ pomoTime }}</p>
-
- </div>
- 
+    <button @click="startPomo">Start Work</button>
+    <button @click="stopPomo">Stop Work</button>
+    <button @click="resetPomo">Work Reset Time</button>
+    <!--https://sabe.io/blog/javascript-convert-milliseconds-seconds-minutes-hours and stackoverflow for the zero before seconds-->
+    <p>{{ Math.floor((pomoTime / 1000 / 60) % 60) + (Math.floor((pomoTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((pomoTime / 1000) % 60))
+     : (" : " + Math.floor((pomoTime / 1000) % 60)))}}</p>
+ </div> 
 </template>
 
 <script>
-
-
 export default {
   name: 'App',
   components: {
@@ -23,30 +18,30 @@ export default {
   data() {
     return {
       timer: null,
-      pomoTime: 10000,
+      pomoTime: 1500500,
+      chillOutTime: 300000
     }
   },
   methods: {
     startPomo() {
       console.log('entering startPomo');
       this.timer = setInterval(() => {
-        console.log('before the while');
-        do {
           this.pomoTime -= 1000;
-        } while (this.pomoTime < 0);
-        console.log('I am in the startPomo method: ' + this.pomoTime);
+        console.log('I am in the setInterval repetition: ' + this.pomoTime);
+        if (this.pomoTime <= 0) {
+          clearInterval(this.timer);
+        }
       }, 1000);
       console.log('I am at the end of the startPomo.')
     },
     stopPomo() {
       clearInterval(this.timer);
-      console.log('end of stopPomo: ' + this.timer);
+      console.log('stopping');
     },
     resetPomo() {
-      console.log('entering resetPomo method.');
-      this.pomoTime = 10000;
-      console.log('end of reset: ' + this.pomoTime);
-    }
+      this.pomoTime = 1500000;
+      console.log('Resetted to ms: ' + this.pomoTime);
+    },
   }
 }
 </script>
