@@ -1,13 +1,19 @@
 <template>
  <div class="timer">
   <div class="title">Pomodoro app</div>
+  <form>
+    <label>Work Time in ms</label>
+    <input type="number" v-model="workTime"><br>
+    <label>Chill Out Time in ms</label>
+    <input type="number" v-model="chillOutTime">
+  </form>
     <div v-if="showWork">
       <button @click="startWork">Start Work</button>
       <button @click="stopWork">Stop Work</button>
       <button @click="resetWork">Reset Work</button>
       <!--https://sabe.io/blog/javascript-convert-milliseconds-seconds-minutes-hours and stackoverflow for the zero before seconds-->
-      <p>{{ Math.floor((pomoTime / 1000 / 60) % 60) + (Math.floor((pomoTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((pomoTime / 1000) % 60))
-      : (" : " + Math.floor((pomoTime / 1000) % 60)))}}</p>
+      <p>{{ Math.floor((workTime / 1000 / 60) % 60) + (Math.floor((workTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((workTime / 1000) % 60))
+      : (" : " + Math.floor((workTime / 1000) % 60)))}}</p>
     </div>
     <div v-if="showChillOut">
       <button @click="startChillOut">Start Chill Out</button>
@@ -28,7 +34,7 @@ export default {
     return {
       timer: null,
       timerChill: null,
-      pomoTime: 10000,
+      workTime: 10000,
       chillOutTime: 5000,
       showWork: true,
       showChillOut: false
@@ -40,9 +46,9 @@ export default {
       this.showWork = true;
       this.showChillOut = false;
       this.timer = setInterval(() => {
-          this.pomoTime -= 1000;
-        console.log('I am in the setInterval repetition: ' + this.pomoTime);
-        if (this.pomoTime <= 0) {
+          this.workTime -= 1000;
+        console.log('I am in the setInterval repetition: ' + this.workTime);
+        if (this.workTime <= 0) {
           clearInterval(this.timer);
           this.showWork = false;
           this.showChillOut = true;
@@ -56,8 +62,8 @@ export default {
       console.log('stopping');
     },
     resetWork() {
-      this.pomoTime = 10000;
-      console.log('Reset to ms: ' + this.pomoTime);
+      this.workTime = 10000;
+      console.log('Reset to ms: ' + this.workTime);
     },
     startChillOut() {
       this.timerChill = setInterval(() => {
