@@ -1,12 +1,21 @@
 <template>
  <div class="timer">
   <div class="title">Pomodoro app</div>
-    <button @click="startPomo">Start Work</button>
-    <button @click="stopPomo">Stop Work</button>
-    <button @click="resetPomo">Work Reset Time</button>
-    <!--https://sabe.io/blog/javascript-convert-milliseconds-seconds-minutes-hours and stackoverflow for the zero before seconds-->
-    <p>{{ Math.floor((pomoTime / 1000 / 60) % 60) + (Math.floor((pomoTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((pomoTime / 1000) % 60))
-     : (" : " + Math.floor((pomoTime / 1000) % 60)))}}</p>
+    <div v-if="showWork">
+      <button @click="startWork">Start Work</button>
+      <button @click="stopWork">Stop Work</button>
+      <button @click="resetWork">Reset Work</button>
+      <!--https://sabe.io/blog/javascript-convert-milliseconds-seconds-minutes-hours and stackoverflow for the zero before seconds-->
+      <p>{{ Math.floor((pomoTime / 1000 / 60) % 60) + (Math.floor((pomoTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((pomoTime / 1000) % 60))
+      : (" : " + Math.floor((pomoTime / 1000) % 60)))}}</p>
+    </div>
+    <div v-if="showChillOut">
+      <button @click="startChillOut">Start Chill Out</button>
+      <button @click="stopChillOut">Stop Chill Out</button>
+      <button @click="resetChillOut">Chill Out Reset Time</button>
+      <p>{{ Math.floor((chillOutTime / 1000 / 60) % 60) + (Math.floor((chillOutTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((chillOutTime / 1000) % 60))
+      : (" : " + Math.floor((chillOutTime / 1000) % 60)))}}</p>
+    </div>
  </div> 
 </template>
 
@@ -18,30 +27,59 @@ export default {
   data() {
     return {
       timer: null,
-      pomoTime: 1500500,
-      chillOutTime: 300000
+      timerChill: null,
+      pomoTime: 10000,
+      chillOutTime: 5000,
+      showWork: true,
+      showChillOut: false
     }
   },
   methods: {
-    startPomo() {
-      console.log('entering startPomo');
+    startWork() {
+      console.log('entering startWork');
+      this.showWork = true;
+      this.showChillOut = false;
       this.timer = setInterval(() => {
           this.pomoTime -= 1000;
         console.log('I am in the setInterval repetition: ' + this.pomoTime);
         if (this.pomoTime <= 0) {
           clearInterval(this.timer);
+          this.showWork = false;
+          this.showChillOut = true;
+          this.startChillOut();
         }
       }, 1000);
-      console.log('I am at the end of the startPomo.')
+      console.log('I am at the end of the startWork.')
     },
-    stopPomo() {
+    stopWork() {
       clearInterval(this.timer);
       console.log('stopping');
     },
-    resetPomo() {
-      this.pomoTime = 1500000;
-      console.log('Resetted to ms: ' + this.pomoTime);
+    resetWork() {
+      this.pomoTime = 10000;
+      console.log('Reset to ms: ' + this.pomoTime);
     },
+    startChillOut() {
+      this.timerChill = setInterval(() => {
+        console.log('Chill out time setInterval()' + this.timerChill)
+        this.chillOutTime -= 1000;
+        if (this.chillOutTime <= 0) {
+          clearInterval(this.timerChill);
+          this.showChillOut = false;
+          this.showWork = true;
+          this.resetWork();
+          this.resetChillOut();
+        }
+      }, 1000)
+    },
+    stopChillOut() {
+      clearInterval(this.timerChill);
+      console.log('stopping chill out');
+    },
+    resetChillOut() {
+      this.chillOutTime = 5000;
+      console.log('Reset chill out to ms: ' + this.chillOutTime);
+    }
   }
 }
 </script>
