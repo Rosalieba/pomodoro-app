@@ -1,16 +1,18 @@
 <template>
  <div class="timer">
   <div class="title">Pomodoro app</div>
-  <form>
-    <label>Work Time in ms</label>
-    <input type="number" v-model="workTime"><br>
-    <label>Chill Out Time in ms</label>
-    <input type="number" v-model="chillOutTime">
-  </form>
+  <div v-if="showInput">
+    <form>
+      <label>Work Time in ms </label>
+      <input type="number" v-model="workTime"><br>
+      <label>Chill Out Time in ms </label>
+      <input type="number" v-model="chillOutTime">
+    </form>
+  </div>
     <div v-if="showWork">
       <button @click="startWork">Start Work</button>
       <button @click="stopWork">Stop Work</button>
-      <button @click="resetWork">Reset Work</button>
+      <button @click="resetWork">Reset Work to standard</button>
       <!--https://sabe.io/blog/javascript-convert-milliseconds-seconds-minutes-hours and stackoverflow for the zero before seconds-->
       <p>{{ Math.floor((workTime / 1000 / 60) % 60) + (Math.floor((workTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((workTime / 1000) % 60))
       : (" : " + Math.floor((workTime / 1000) % 60)))}}</p>
@@ -18,7 +20,7 @@
     <div v-if="showChillOut">
       <button @click="startChillOut">Start Chill Out</button>
       <button @click="stopChillOut">Stop Chill Out</button>
-      <button @click="resetChillOut">Chill Out Reset Time</button>
+      <button @click="resetChillOut">Reset Chill Out to standard</button>
       <p>{{ Math.floor((chillOutTime / 1000 / 60) % 60) + (Math.floor((chillOutTime / 1000) % 60) < 10 ? (" : 0" + Math.floor((chillOutTime / 1000) % 60))
       : (" : " + Math.floor((chillOutTime / 1000) % 60)))}}</p>
     </div>
@@ -26,6 +28,8 @@
 </template>
 
 <script>
+import { tsImportEqualsDeclaration } from '@babel/types';
+
 export default {
   name: 'App',
   components: {
@@ -34,8 +38,9 @@ export default {
     return {
       timer: null,
       timerChill: null,
-      workTime: 10000,
-      chillOutTime: 5000,
+      workTime: null,
+      chillOutTime: null,
+      showInput: true,
       showWork: true,
       showChillOut: false
     }
@@ -43,6 +48,7 @@ export default {
   methods: {
     startWork() {
       console.log('entering startWork');
+      this.showInput = false;
       this.showWork = true;
       this.showChillOut = false;
       this.timer = setInterval(() => {
@@ -62,19 +68,22 @@ export default {
       console.log('stopping');
     },
     resetWork() {
-      this.workTime = 10000;
+      //this.showInput = true;
+      this.workTime = 10000; //how to reset to value entered by user ?
       console.log('Reset to ms: ' + this.workTime);
     },
     startChillOut() {
+      this.showInput = false;
       this.timerChill = setInterval(() => {
         console.log('Chill out time setInterval()' + this.timerChill)
         this.chillOutTime -= 1000;
         if (this.chillOutTime <= 0) {
           clearInterval(this.timerChill);
-          this.showChillOut = false;
+          this.showChillOut = true;
           this.showWork = true;
           this.resetWork();
           this.resetChillOut();
+          this.showInput = true;
         }
       }, 1000)
     },
