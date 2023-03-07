@@ -72,7 +72,7 @@ export default {
     },
     resetWork() {
       //this.showInput = true;
-      this.workTime = 10000; //how to reset to value entered by user ?
+      this.workTime = 60000; //how to reset to value entered by user ?
       console.log('Reset to ms: ' + this.workTime);
     },
     startChillOut() {
@@ -95,7 +95,7 @@ export default {
       console.log('stopping chill out');
     },
     resetChillOut() {
-      this.chillOutTime = 5000;
+      this.chillOutTime = 20000;
       console.log('Reset chill out to ms: ' + this.chillOutTime);
     }
   }
@@ -113,20 +113,18 @@ export default {
 }
 
 .timer {
-  width: 80vw;
+  width: 20vw;
+  height: 20vh;
   border-radius: 20px;
   background: #182bba;
   color: white;
-  text-align: center;
-  padding: 10vw;
-  margin: 20vw auto;
+  padding:  5vh 5vw 15vh 5vw;
+  margin: 3vh 3vw;
 }
 .title {
   font-size: large;
   text-transform: uppercase;
   font-weight: bold;
-  margin-top: 2vh;
-  margin-bottom: 10vh;
 }
 .input {
   font-style: italic;
@@ -145,14 +143,14 @@ button {
   color: white;
   border: 0.3vh solid white;
   border-radius: 0.3vh;
-  font-size: 3vh;
+  font-size: 15px;
   padding: 1.5vh;
 }
 .clock {
   margin: 2vh;
-  border: 1vh solid white;
+  border: 2px solid white;
   padding: 4vh;
-  font-size: 3vh;
+  font-size: 15px;
 }
 
 </style>
