@@ -113,8 +113,8 @@ export default {
 }
 
 .timer {
-  width: 20vw;
-  height: 20vh;
+  width: 25vw;
+  height: 30vh;
   border-radius: 20px;
   background: #182bba;
   color: white;
